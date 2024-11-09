@@ -1,0 +1,291 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Diary</title>
+    <link rel="stylesheet" href="{% static 'css/diary.css' %}">
+</head>
+
+<style>
+
+    body {
+        font-family: Inter,sans-serif;
+        background-color: #D1E9F6;
+    }
+    h2 {
+        background-color: #e1def9;
+        border: 2px solid #111;
+        border-radius: 8px;
+        box-sizing: border-box;
+        font-size: 30px;
+        font-family: Inter,sans-serif;
+    
+    }
+
+    .nav {
+    background-color: #F6EACB;
+    overflow: hidden;
+    border: 2px solid #111;
+    border-radius: 8px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    font-family: Inter,sans-serif;
+    font-weight: bold;
+    }
+
+    .nav a {
+    float: left;
+    color: #355378;
+    /* color: #111 */
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 18px;
+    }
+
+    .nav a:hover {
+    background-color: #cfb5b2;
+    color: black;
+    }
+
+    .conta {
+        float: right;
+    }
+
+    .button-56 {
+    align-items: center;
+    background-color: #EECAD5;
+    border: 2px solid #111;
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #111;
+    cursor: pointer;
+    display: flex;
+    font-family: Inter,sans-serif;
+    font-size: 16px;
+    height: 48px;
+    justify-content: center;
+    line-height: 24px;
+    max-width: 100%;
+    padding: 0 25px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    }
+
+    .button-56:after {
+    background-color: #111;
+    border-radius: 8px;
+    content: "";
+    display: block;
+    height: 48px;
+    left: 0;
+    width: 100%;
+    position: absolute;
+    top: -2px;
+    transform: translate(8px, 8px);
+    transition: transform .2s ease-out;
+    z-index: -1;
+    }
+
+    .button-56:hover:after {
+    transform: translate(0, 0);
+    }
+
+    .button-56:active {
+    background-color: #ffdeda;
+    outline: 0;
+    }
+
+    .button-56:hover {
+    outline: 0;
+    }
+
+    @media (min-width: 768px) {
+    .button-56 {
+        padding: 0 40px;
+    }
+    }
+
+    .button-56-editar {
+    align-items: center;
+    background-color: #EECAD5;
+    border: 2px solid #111;
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #111;
+    cursor: pointer;
+    display: flex;
+    font-family: Inter,sans-serif;
+    font-size: 16px;
+    height: 48px;
+    justify-content: center;
+    line-height: 24px;
+    max-width: 100%;
+    padding: 0 25px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    float: left;
+    }
+
+    .button-56-editar:after {
+    background-color: #111;
+    border-radius: 8px;
+    content: "";
+    display: block;
+    height: 48px;
+    left: 0;
+    width: 100%;
+    position: absolute;
+    top: -2px;
+    transform: translate(8px, 8px);
+    transition: transform .2s ease-out;
+    z-index: -1;
+    }
+
+    .button-56-editar:hover:after {
+    transform: translate(0, 0);
+    }
+
+    .button-56-editar:active {
+    background-color: #ffdeda;
+    outline: 0;
+    }
+
+    .button-56-editar:hover {
+    outline: 0;
+    }
+
+    @media (min-width: 768px) {
+    .button-56-editar {
+        padding: 0 40px;
+    }
+    }
+
+    .resultado{
+        align-items: center;
+            background-color: #fee6e3;
+            border: 2px solid #111;
+            border-radius: 8px;
+
+            color: #111;
+
+            font-family: Inter,sans-serif;
+            font-size: 16px;
+
+            line-height: 24px;
+            max-width: 40%;
+
+            text-align: left;
+
+            float: center;
+    }
+
+    .messages {
+        padding: 0;
+        list-style: none;
+    }
+
+    .message {
+        width: 100%;
+        background: #F6EACB;
+        padding: 1rem;
+        text-align: center;
+        margin: 1rem 0;
+        border: 2px solid #111;
+        border-radius: 8px;
+    }
+
+    .remedio-label {
+        display: inline-block;
+        margin: 5px;
+        padding: 5px;
+        background-color: #e1def9;
+        border-radius: 8px;
+        border: 2px solid #111;
+    }   
+
+    .remove-btn {
+        margin-left: 10px;
+        color: red;
+        background: none;
+        border: none;
+        cursor: pointer;
+        min-width: none;
+    }
+
+    img{
+        align-items: center;
+        background-color: #EECAD5;
+        border: 2px solid #111;
+        border-radius: 8px;
+        margin: auto;
+        display: block;
+    }
+
+
+
+</style>
+
+
+
+<body>
+
+    <ul>
+        <div class="conta">
+            {% if user.is_authenticated %}
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button class="button-56" type="submit">Logout</button>
+            </form>
+            {% else %}
+                <a href="{% url 'login' %}"><button class="button-56" type="submit">Login</button></a>
+                <a href="{% url 'register' %}"><button class="button-56" type="submit">Registrar-se</button></a>
+            {% endif %}
+        </div>
+
+    </ul>
+    <h2>{{ username }}</h2>
+    <img src="{% static 'css/Diary_Logo.jpg' %}" alt="Diary_Logo" width="500" height="130">
+
+    
+    <br><br>
+    <div class="button-56">
+    <div class="nav">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'entry-list' %}">Diário</a>
+        <a href="{% url 'remedio-list' %}">Remédios</a>
+        <a href="{% url 'sono-registro-list' %}">Sono</a> 
+        <a href="{% url 'calendario' %}">Humor</a>
+    </div>
+    <br><br>
+    </div>
+    <br><br>
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+        <li class="message">
+            {{ message }}
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+
+
+    {% block content %}{% endblock %}
+    
+
+</body>
+
+</html>

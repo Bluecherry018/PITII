@@ -1,0 +1,33 @@
+<!-- templates/remedios/remedio_detail.html -->
+{% extends "entries/base.html" %}
+
+<style>
+    .editar_excluir{
+        align-items: center;
+            background-color: #fee6e3;
+            border: 2px solid #111;
+            border-radius: 8px;
+            box-sizing: border-box;
+            line-height: 24px;
+            max-width: 40%;
+            padding: 0 25px;
+
+    }
+
+</style>
+
+{% block content %}
+    <h2>{{ object.nome }}</h2>
+    <br><br>
+    <div class="resultado">
+        <p><strong>Horário: </strong> {{ object.descricao }}</p>
+    </div>
+    <p>
+        <a href="{% url 'remedio-update' object.id %}"><button class="button-56-editar" type="submit">Editar</button></a>
+        <a href="{% url 'remedio-delete' object.id %}"><button class="button-56-editar" type="submit">Excluir</button></a>
+    </p>
+    <a href="{% url 'remedio-list' %}">
+        <button class="button-56-editar">Voltar</button>
+    </a>
+{% endblock %}
+

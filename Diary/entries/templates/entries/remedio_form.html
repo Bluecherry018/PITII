@@ -1,0 +1,47 @@
+<!-- templates/remedios/remedio_form.html -->
+{% extends "entries/base.html" %}
+
+
+{% block content %}
+
+<style>
+    input {
+            align-items: center;
+            background-color: #fee6e3;
+            border: 2px solid #111;
+            border-radius: 8px;
+            color: #111;
+            font-family: Inter,sans-serif;
+            font-size: 16px;
+            line-height: 24px;
+            max-width: 80%;
+            text-align: left;
+            float: center;
+        }
+
+    textarea{
+    
+            align-items: center;
+            background-color: #fee6e3;
+            border: 2px solid #111;
+            border-radius: 8px;
+            color: #111;
+            font-family: Inter,sans-serif;
+            font-size: 16px;
+            line-height: 24px;
+            max-width: 80%;
+            text-align: left;
+            float: center;
+        }
+</style>
+
+    <h1>{% if object %}Editar Remédio{% else %}Adicionar Novo Remédio{% endif %}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="button-56-editar" type="submit">Salvar</button>
+    </form>
+    <a href="{% url 'remedio-list' %}">
+        <button class="button-56-editar">Cancel</button>
+    </a>
+{% endblock %}

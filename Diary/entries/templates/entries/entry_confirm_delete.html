@@ -1,0 +1,28 @@
+<!-- entries/templates/entries/entry_confirm_delete.html -->
+
+{% extends "entries/base.html" %}
+{% block content %}
+
+<style>
+    .deletar-registro{
+        align-items: center;
+            background-color:  #e1def9;
+            border: 2px solid #111;
+            border-radius: 8px;
+            max-width: fit-content;
+            padding: 0 25px;
+    }
+
+</style>
+    <form method="post">{% csrf_token %}
+        <p class="deletar-registro">
+            Deseja deletar
+            <em>"{{ entry.title }}"</em>
+            criado em {{ entry.date_created|date:'Y-m-d' }}?
+        </p>
+        <button class="button-56-editar" type="submit">Excluir</button>
+    </form>
+    <a href="{% url 'entry-detail' entry.id %}">
+        <button class="button-56-editar">Cancel</button>
+    </a>
+{% endblock %}

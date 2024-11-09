@@ -1,0 +1,519 @@
+{% extends "entries/base.html" %}
+
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    .planner-container {
+        display: grid;
+        grid-template-areas: 
+            "title title title"
+            "lema compromissos agua"
+            "refeicoes prioridades limpar"
+            "anotacoes afazer compras";
+        grid-gap: 20px;
+        padding: 20px;
+        background-color: #F1D3CE;
+        color: #111;
+        border-radius: 8px;
+        border: 2px solid #111;
+        box-sizing: border-box;
+        cursor: pointer;
+        
+        }
+    .title {
+        grid-area: title;
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+    }
+    .refeicoes { grid-area: refeicoes; }
+    .prioridades { grid-area: prioridades; }
+    .limpar { grid-area: limpar; }
+    .agua { grid-area: agua; }
+    .afazer { grid-area: afazer; }
+    .compras { grid-area: compras; }
+    .anotacoes { grid-area: anotacoes; }
+    .compromissos { grid-area: compromissos;}
+    .lema { grid-area: lema; }
+
+    .section {
+        background-color:#e1def9;
+        border: 2px solid #111;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .section h3 {
+        margin-top: 0;
+        font-size: 18px;
+    }
+    .section ul {
+        list-style-type: none;
+        padding: 0;
+    
+    }
+    .section input[type="text"] {
+        width: 100%;
+        padding: 5px;
+        margin-bottom: 10px;
+        border: 2px solid #111;
+        border-radius: 8px;
+
+    }
+    .section textarea {
+        width: 100%;
+        padding: 5px;
+        margin-bottom: 10px;
+        border: 2px solid #111;
+        border-radius: 8px;
+    }
+    .section button {
+        padding: 5px 10px;
+        border: 2px solid #111;
+        border-radius: 8px;
+        background-color: #EECAD5;
+        color: #111;
+        cursor: pointer;
+    }
+    li{
+    font-family: Inter,sans-serif;
+}
+
+
+</style>
+
+<div class="planner-container">
+
+    <div class="section refeicoes">
+        <h3>REFEIÇÕES</h3>
+        <ul>
+            <li>Café da manhã: <input type="text" name="pequeno_almoco" value="{{ planner.pequeno_almoco }}" placeholder="Escreva aqui..."></li>
+            <li>Almoço: <input type="text" name="almoco" value="{{ planner.almoco }}" placeholder="Escreva aqui..."></li>
+            <li>Lanche: <input type="text" name="lanche" value="{{ planner.lanche }}" placeholder="Escreva aqui..."></li>
+            <li>Jantar: <input type="text" name="jantar" value="{{ planner.jantar }}" placeholder="Escreva aqui..."></li>
+        </ul>
+    </div>
+
+
+    <div class="section prioridades">
+        <h3>PRIORIDADES</h3>
+        <button type="button" id="add-prioridade-btn">+</button>
+        <ul id="prioridades-list">
+            {% for prioridade in prioridades %}
+                <li>
+                    <input type="text" name="prioridade{{ forloop.counter }}" value="{{ prioridade }}" placeholder="Escreva aqui...">
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let prioridadeCount = {{ prioridades|length }} + 1;
+    
+            function addPrioridadeField() {
+                if (prioridadeCount > 6) return;
+    
+                const ul = document.getElementById("prioridades-list");
+                const li = document.createElement("li");
+                const input = document.createElement("input");
+    
+                input.type = "text";
+                input.name = "prioridade" + prioridadeCount;
+                input.placeholder = "Escreva aqui...";
+                input.addEventListener("change", function() {
+                    savePriority(input.name, input.value);
+                });
+    
+                li.appendChild(input);
+                ul.appendChild(li);
+                prioridadeCount += 1;
+            }
+    
+            document.getElementById("add-prioridade-btn").addEventListener("click", addPrioridadeField);
+    
+            function savePriority(name, value) {
+                const formData = new FormData();
+                formData.append('name', name);
+                formData.append('value', value);
+    
+                fetch(window.location.href, {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Prioridade salva com sucesso:", data);
+                })
+                .catch(error => {
+                    console.error("Erro ao salvar prioridade:", error);
+                });
+            }
+    
+            window.addEventListener("beforeunload", function() {
+                document.querySelectorAll("#prioridades-list input").forEach(input => {
+                    if (input.value) {
+                        savePriority(input.name, input.value);
+                    }
+                });
+            });
+        });
+        </script>
+    
+
+    <div class="section agua">
+        <h3>ÁGUA</h3>
+        <p>Copos de água: {{ planner.copos_agua }}</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" name="add_copo">+</button>
+            <button type="submit" name="remove_copo">-</button>
+        </form>
+    </div>
+    
+
+    <div class="section limpar">
+        <h3>LIMPAR A CASA</h3>
+        <button type="button" id="add-limpeza-btn">+</button>
+        <ul id="limpeza-list">
+            {% for limpar in limpeza %}
+                <li>
+                    <input type="text" name="limpar{{ forloop.counter }}" value="{{ limpar }}" placeholder="Escreva aqui...">
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let limpezaCount = {{ limpeza|length }} + 1;
+    
+            function addLimpezaField() {
+                if (limpezaCount > 6) return;
+    
+                const ul = document.getElementById("limpeza-list");
+                const li = document.createElement("li");
+                const input = document.createElement("input");
+    
+                input.type = "text";
+                input.name = "limpar" + limpezaCount;
+                input.placeholder = "Escreva aqui...";
+                input.addEventListener("change", function() {
+                    savePriority(input.name, input.value);
+                });
+    
+                li.appendChild(input);
+                ul.appendChild(li);
+                limpezaCount += 1;
+            }
+    
+            document.getElementById("add-limpeza-btn").addEventListener("click", addLimpezaField);
+    
+            function savePriority(name, value) {
+                const formData = new FormData();
+                formData.append('name', name);
+                formData.append('value', value);
+    
+                fetch(window.location.href, {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Limpeza salva com sucesso:", data);
+                })
+                .catch(error => {
+                    console.error("Erro ao salvar limpeza:", error);
+                });
+            }
+    
+            window.addEventListener("beforeunload", function() {
+                document.querySelectorAll("#limpeza-list input").forEach(input => {
+                    if (input.value) {
+                        savePriority(input.name, input.value);
+                    }
+                });
+            });
+        });
+    </script>
+
+
+    <div class="section afazer">
+        <h3>A FAZER</h3>
+        <button type="button" id="add-fazer-btn">+</button>
+        <ul id="fazer-list">
+            {% for afazer in fazer %}
+                <li>
+                    <input type="text" name="afazer{{ forloop.counter }}" value="{{ afazer }}" placeholder="Escreva aqui...">
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let fazerCount = {{ fazer|length }} + 1;
+    
+            function addFazerField() {
+                if (fazerCount > 6) return;
+    
+                const ul = document.getElementById("fazer-list");
+                const li = document.createElement("li");
+                const input = document.createElement("input");
+    
+                input.type = "text";
+                input.name = "fazer" + fazerCount;
+                input.placeholder = "Escreva aqui...";
+                input.addEventListener("change", function() {
+                    savePriority(input.name, input.value);
+                });
+    
+                li.appendChild(input);
+                ul.appendChild(li);
+                fazerCount += 1;
+            }
+    
+            document.getElementById("add-fazer-btn").addEventListener("click", addFazerField);
+    
+            function savePriority(name, value) {
+                const formData = new FormData();
+                formData.append('name', name);
+                formData.append('value', value);
+    
+                fetch(window.location.href, {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("A Fazer salva com sucesso:", data);
+                })
+                .catch(error => {
+                    console.error("Erro ao salvar a Fazer:", error);
+                });
+            }
+    
+            window.addEventListener("beforeunload", function() {
+                document.querySelectorAll("#fazer-list input").forEach(input => {
+                    if (input.value) {
+                        savePriority(input.name, input.value);
+                    }
+                });
+            });
+        });
+    </script>
+
+
+    <div class="section compras">
+        <h3>COISAS PARA COMPRAR</h3>
+        <button type="button" id="add-compras-btn">+</button>
+        <ul id="compras-list">
+            {% for comprar in compras %}
+                <li>
+                    <input type="text" name="comprar{{ forloop.counter }}" value="{{ comprar }}" placeholder="Escreva aqui...">
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let comprarCount = {{ compras|length }} + 1;
+    
+            function addComprasField() {
+                if (comprarCount > 6) return;
+    
+                const ul = document.getElementById("compras-list");
+                const li = document.createElement("li");
+                const input = document.createElement("input");
+    
+                input.type = "text";
+                input.name = "compras" + comprarCount;
+                input.placeholder = "Escreva aqui...";
+                input.addEventListener("change", function() {
+                    savePriority(input.name, input.value);
+                });
+    
+                li.appendChild(input);
+                ul.appendChild(li);
+                comprarCount += 1;
+            }
+    
+            document.getElementById("add-compras-btn").addEventListener("click", addComprasField);
+    
+            function savePriority(name, value) {
+                const formData = new FormData();
+                formData.append('name', name);
+                formData.append('value', value);
+    
+                fetch(window.location.href, {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Compra salva com sucesso:", data);
+                })
+                .catch(error => {
+                    console.error("Erro ao salvar compra:", error);
+                });
+            }
+    
+            window.addEventListener("beforeunload", function() {
+                document.querySelectorAll("#compras-list input").forEach(input => {
+                    if (input.value) {
+                        savePriority(input.name, input.value);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <div class="section lema">
+        <p>{{ quote_of_the_day }}</p>
+    </div>
+
+
+    <div class="section anotacoes">
+        <h3>ANOTAÇÕES</h3>
+        <textarea rows="10" name="anotacoes" placeholder="Escreva aqui...">{{ planner.anotacoes }}</textarea>
+    </div>
+
+    <div class="section compromissos">
+        <h3>COMPROMISSOS</h3>
+        <button type="button" id="add-compromisso-btn">+</button>
+        <ul id="compromisso-list">
+            {% for compromissos in compromisso %}
+                <li>
+                    <input type="text" name="compromissos{{ forloop.counter }}" value="{{ compromissos }}" placeholder="Escreva aqui...">
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let compromissoCount = {{  compromisso|length }} + 1;
+    
+            function addCompromissoField() {
+                if (compromissoCount > 6) return;
+    
+                const ul = document.getElementById("compromisso-list");
+                const li = document.createElement("li");
+                const input = document.createElement("input");
+    
+                input.type = "text";
+                input.name = "compromissos" + compromissoCount;
+                input.placeholder = "Escreva aqui...";
+                input.addEventListener("change", function() {
+                    savePriority(input.name, input.value);
+                });
+    
+                li.appendChild(input);
+                ul.appendChild(li);
+                compromissoCount += 1;
+            }
+    
+            document.getElementById("add-compromisso-btn").addEventListener("click", addCompromissoField);
+    
+            function savePriority(name, value) {
+                const formData = new FormData();
+                formData.append('name', name);
+                formData.append('value', value);
+    
+                fetch(window.location.href, {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Compromisso salvo com sucesso:", data);
+                })
+                .catch(error => {
+                    console.error("Erro ao salvar compromisso:", error);
+                });
+            }
+    
+            window.addEventListener("beforeunload", function() {
+                document.querySelectorAll("#compromisso-list input").forEach(input => {
+                    if (input.value) {
+                        savePriority(input.name, input.value);
+                    }
+                });
+            });
+        });
+    </script>
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+    $(document).ready(function(){
+        // Função para limpar todos os campos do planner
+        $('#clear-all').click(function(){
+            $('input[type="text"]').val('');  // Limpa todos os campos de texto
+            $('textarea').val('');            // Limpa todos os campos de textarea
+            $('input[type="checkbox"]').prop('checked', false); // Desmarca todos os checkboxes
+            // Opcional: Envia uma requisição para zerar os campos no servidor
+            $.ajax({
+                url: "{% url 'home' %}",
+                type: 'POST',
+                data: {
+                    'clear_all': true,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response){
+                    console.log("Todos os campos foram limpos.");
+                }
+            });
+        });
+    });
+
+    $(document).ready(function(){
+        $('input[type="text"], input[type="checkbox"], textarea').on('change', function() {
+            var field_name = $(this).attr('name');
+            var field_value = $(this).attr('type') === 'checkbox' ? $(this).is(':checked') : $(this).val();
+
+            $.ajax({
+                url: "{% url 'home' %}",
+                type: 'POST',
+                data: {
+                    'name': field_name,
+                    'value': field_value,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response){
+                    console.log("Campo salvo: " + field_name);
+                }
+            });
+        });
+    });
+</script>
+
+<br><br>
+<div class="limpar">
+    <form method="post">
+        {% csrf_token %}
+        <button class="button-56" type="submit" name="clear_all">LIMPAR</button>
+    </form>
+</div>
+
+{% endblock %}

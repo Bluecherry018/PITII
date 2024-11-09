@@ -1,0 +1,115 @@
+{% extends "entries/base.html" %}
+
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Média de Horas Dormidas</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  <!-- Incluindo Chart.js -->
+</head>
+
+<style>
+    
+    h2 {
+        background-color: #e1def9;
+       
+    }
+
+    .media_sono{
+        align-items: center;
+            background-color: #fee6e3;
+            border: 2px solid #111;
+            border-radius: 8px;
+            line-height: 24px;
+            max-width: 10%;
+            padding: 0 25px;
+
+    }
+
+    .sono_horas{
+        align-items: center;
+            background-color: #fee6e3;
+            border: 2px solid #111;
+            border-radius: 8px;
+            line-height: 24px;
+            max-width: 40%;
+            padding: 0 25px;
+    }
+
+    p{
+        color: #111;
+    }
+
+</style>
+
+{% if registros %}
+    <h2>Média de Horas Dormidas na Semana:</h2>
+    
+        {% for media in media_horas %}
+            <p class="media_sono">{{ media|floatformat:0 }} horas</p> <!-- Exibe a média formatada com 2 casas decimais -->
+        {% endfor %}
+    
+
+    
+    <canvas id="horasDormidasChart" width="500" height="100"></canvas>
+
+    
+    <script>
+        // Dados das horas dormidas para cada registro vindos do backend
+        var horasDormidas = {{ horas_dormidas|safe }};
+        var datasRegistros = {{ datas_registros|safe }};
+
+        // Configuração das cores das barras
+        var barColors = horasDormidas.map(function(horas) {
+            return horas >= 7 ? 'rgba(75, 192, 192, 0.6)' : 'rgba(255, 99, 132, 0.6)'; // Verde se >= 7, Vermelho se < 7
+        });
+
+        // Renderizando o gráfico usando Chart.js
+        var ctx = document.getElementById('horasDormidasChart').getContext('2d');
+        var horasDormidasChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: datasRegistros,  // Datas dos registros
+                datasets: [{
+                    label: 'Horas Dormidas',
+                    data: horasDormidas,
+                    backgroundColor: barColors,
+                    borderColor: barColors.map(color => color.replace('0.6', '1')),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+    
+
+
+{% else %}
+    <p>Não há registros de sono disponíveis.</p>
+{% endif %} 
+        <br><br>
+        <h2>Registro do Sono:</h2>
+        <br><br>
+
+        {% for registro in registros %}
+            <article>
+                <h2 class="{{ entry.date_created|date:'l' }}">
+                    {{ registro.date_created|date:'d-m-Y' }}
+                </h2>
+                <h3>
+                    <a class="sono_horas" href="{% url 'sono-detail' registro.id %}">
+                        {{ registro.horas }} hs
+                    </a>
+                </h3>
+            </article>
+            
+        {% endfor %}
+{% endblock %}

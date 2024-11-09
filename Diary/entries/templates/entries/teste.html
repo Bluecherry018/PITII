@@ -1,0 +1,185 @@
+
+{% extends "entries/base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .planner-container {
+            display: grid;
+            grid-template-areas: 
+                "title title title"
+                "refeicoes prioridades agua"
+                "lema compromissos limpar"
+                "anotacoes afazer compras";
+            grid-gap: 20px;
+            padding: 20px;
+            background-color: #F7D8D6;
+            color: #355378;
+        }
+        .title {
+            grid-area: title;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .refeicoes { grid-area: refeicoes; }
+        .prioridades { grid-area: prioridades; }
+        .agua { grid-area: agua; }
+        .limpar { grid-area: limpar; }
+        .afazer { grid-area: afazer; }
+        .compras { grid-area: compras; }
+        .anotacoes { grid-area: anotacoes; }
+        .compromissos { grid-area: compromissos; }
+        .lema { grid-area: lema; }
+
+        .section {
+            background-color: #F2ECF0;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .section h3 {
+            margin-top: 0;
+            font-size: 18px;
+        }
+        .section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .section input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .section button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #355378;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="planner-container">
+        <div class="title">VAMOS FAZER AS COISAS JÁ!</div>
+
+        <div class="section refeicoes">
+            <h3>REFEIÇÕES</h3>
+            <ul>
+                <li>Pequeno-Almoço: <input type="text" placeholder="Escreva aqui..."></li>
+                <li>Almoço: <input type="text" placeholder="Escreva aqui..."></li>
+                <li>Jantar: <input type="text" placeholder="Escreva aqui..."></li>
+            </ul>
+        </div>
+
+        <div class="section prioridades">
+            <h3>PRIORIDADES</h3>
+            <ul>
+                <!-- Formulários para Prioridades -->
+                <li><input type="text" placeholder="Escreva aqui..."></li>
+                <li><input type="text" placeholder="Escreva aqui..."></li>
+                <li><input type="text" placeholder="Escreva aqui..."></li>
+            </ul>
+        </div>
+
+        <div class="section agua">
+            <h3>ÁGUA</h3>
+            <ul>
+                <!-- Formulários para Água -->
+                <li><input type="checkbox"> Copo 1</li>
+                <li><input type="checkbox"> Copo 2</li>
+                <li><input type="checkbox"> Copo 3</li>
+                <li><input type="checkbox"> Copo 4</li>
+                <li><input type="checkbox"> Copo 5</li>
+                <li><input type="checkbox"> Copo 6</li>
+            </ul>
+        </div>
+
+        <div class="section limpar">
+            <h3>LIMPAR A CASA</h3>
+            <ul>
+                <!-- Formulários para Limpar a Casa -->
+                <li><input type="text" placeholder="Escreva aqui..."></li>
+            </ul>
+        </div>
+
+        <div class="section afazer">
+            <h3>A FAZER</h3>
+            <ul>
+                <!-- Formulários para Tarefas -->
+                <li><input type="text" placeholder="Escreva aqui..."></li>
+                <li><input type="text" placeholder="Escreva aqui..."></li>
+                <li><input type="text" placeholder="Escreva aqui..."></li>
+            </ul>
+        </div>
+
+        <div class="section compras">
+            <h3>COISAS PARA COMPRAR</h3>
+            <ul>
+                <!-- Formulários para Coisas para Comprar -->
+                <li><input type="text" placeholder="Escreva aqui..."></li>
+                <li><input type="text" placeholder="Escreva aqui..."></li>
+            </ul>
+        </div>
+
+        <div class="section lema">
+            <h3>UM LEMA A SEGUIR</h3>
+            <input type="text" placeholder="Escreva aqui...">
+        </div>
+
+        <div class="section anotacoes">
+            <h3>ANOTAÇÕES</h3>
+            <textarea rows="5" placeholder="Escreva aqui..."></textarea>
+        </div>
+
+    </div>
+
+    <button id="concluida-btn" style="display:none;">Concluída</button>
+
+    <script>
+        // Verifica se todos os campos estão preenchidos
+        function checkFields() {
+            const inputs = document.querySelectorAll('input[type="text"]');
+            const textarea = document.querySelector('textarea');
+            let allFilled = true;
+
+            inputs.forEach(input => {
+                if (input.value === "") {
+                    allFilled = false;
+                }
+            });
+
+            if (textarea.value === "") {
+                allFilled = false;
+            }
+
+            const button = document.getElementById('concluida-btn');
+            if (allFilled) {
+                button.style.display = 'block';
+            } else {
+                button.style.display = 'none';
+            }
+        }
+
+        // Adiciona evento para checar os campos
+        document.querySelectorAll('input[type="text"], textarea').forEach(field => {
+            field.addEventListener('input', checkFields);
+        });
+    </script>
+</body>
+</html>
+
+{% endblock %}
+

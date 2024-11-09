@@ -1,0 +1,214 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Diary</title>
+    <link rel="stylesheet" href="{% static 'css/diary.css' %}">
+</head>
+
+{% block content %}
+<style>
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #D1E9F6;
+        
+    }
+    .button-56 {
+    align-items: center;
+    background-color: #EECAD5;
+    border: 2px solid #111;
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #111;
+    cursor: pointer;
+    display: flex;
+    font-family: Inter,sans-serif;
+    font-size: 16px;
+    height: 48px;
+    justify-content: center;
+    line-height: 24px;
+    max-width: 100%;
+    padding: 0 25px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    float: right;
+    }
+
+    .button-56:after {
+    background-color: #111;
+    border-radius: 8px;
+    content: "";
+    display: block;
+    height: 48px;
+    left: 0;
+    width: 100%;
+    position: absolute;
+    top: -2px;
+    transform: translate(8px, 8px);
+    transition: transform .2s ease-out;
+    z-index: -1;
+    }
+
+    .button-56:hover:after {
+    transform: translate(0, 0);
+    }
+
+    .button-56:active {
+    background-color: #ffdeda;
+    outline: 0;
+    }
+
+    .button-56:hover {
+    outline: 0;
+    }
+
+    @media (min-width: 768px) {
+    .button-56 {
+        padding: 0 40px;
+    }
+    }
+
+    .button-56-entrar {
+    align-items: center;
+    background-color: #EECAD5;
+    border: 2px solid #111;
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #111;
+    cursor: pointer;
+    display: flex;
+    font-family: Inter,sans-serif;
+    font-size: 16px;
+    height: 48px;
+    justify-content: center;
+    line-height: 24px;
+    max-width: 100%;
+    padding: 0 25px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    float: left;
+    margin-left: 625px;
+    }
+
+    .button-56-entrar:after {
+    background-color: #111;
+    border-radius: 8px;
+    content: "";
+    display: block;
+    height: 48px;
+    left: 0;
+    width: 100%;
+    position: absolute;
+    top: -2px;
+    transform: translate(8px, 8px);
+    transition: transform .2s ease-out;
+    z-index: -1;
+    }
+
+    .button-56-entrar:hover:after {
+    transform: translate(0, 0);
+    }
+
+    .button-56-entrar:active {
+    background-color: #ffdeda;
+    outline: 0;
+    }
+
+    .button-56-entrar:hover {
+    outline: 0;
+    }
+
+    @media (min-width: 768px) {
+    .button-56-entrar {
+        padding: 0 40px;
+    }
+    }
+
+    input {
+            align-items: center;
+            background-color: #fee6e3;
+            border: 2px solid #111;
+            border-radius: 8px;
+            color: #111;
+            font-family: Inter,sans-serif;
+            font-size: 16px;
+            line-height: 24px;
+            max-width: 15%;
+            padding: 0 25px;
+            text-align: left;
+            margin-left: 600px;
+
+        }
+        
+        label{
+            margin-left: 600px;
+        }
+    
+        h2{
+            align-items: center;
+            background-color: #EECAD5;
+            border: 2px solid #111;
+            border-radius: 8px;
+            color: #111;
+            font-family: Inter,sans-serif;
+            font-size: 30px;
+            line-height: 40px;
+            max-width: 40%;
+            padding: 0 25px;
+            text-align: left;
+            margin-left: 635px;
+            
+            
+
+        }
+
+        img{
+        align-items: center;
+        background-color: #EECAD5;
+        border: 2px solid #111;
+        border-radius: 8px;
+        display: block;
+        margin: 0px 462px;
+    }
+
+
+</style>
+
+
+
+  <a href="{% url 'register' %}"><button class="button-56" type="submit">Registrar-se</button></a>
+
+  <img src="{% static 'css/Diary_Logo.jpg' %}" alt="Diary_Logo" width="500" height="130">
+  <br><br>
+  <h2>Login</h2>
+  <br><br>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="username">Usuário:</label>
+      <input type="text" name="username" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Senha:</label>
+      <input type="password" name="password" class="form-control" required>
+    </div>
+    
+   <p><button class="button-56-entrar" type="submit" class="btn btn-primary">Entrar</button></p>
+  </form>
+
+
+{% endblock %}
+
+

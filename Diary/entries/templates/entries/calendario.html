@@ -1,0 +1,179 @@
+
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css' rel='stylesheet' />
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js'></script>
+
+{% extends "entries/base.html" %}
+
+{% block content %}
+    <style>
+
+        .calendario{
+            text-align: center;
+            background-color: #D1E9F6;
+            border: 2px;
+            border-radius: 8px;
+            box-sizing: border-box;
+            color: #111;
+        }
+
+        .fc .fc-col-header-top{
+            border: 2px solid #111;  
+            border-radius: 8px;     
+            color: #111;  
+        }
+        .fc .fc-button {
+            align-items: center;
+            background-color: #e1def9;
+            border: 2px solid #111;
+            border-radius: 8px;
+            box-sizing: border-box;
+            color: #111;
+            cursor: pointer;
+            height: 48px;
+            justify-content: center;
+            line-height: 24px;
+            max-width: 100%;
+            padding: 0 25px;
+            position: relative;
+            text-align: center;
+            text-decoration: none;
+            transition: none;
+        
+        }
+
+        .fc .fc-button:hover {
+            background-color: #c5b9f2;  
+            color: #111;   
+           
+            
+        }
+
+        .fc .fc-button:active {
+            background-color: #c5b9f2; 
+            color: #111;  
+            font-weight: bold; 
+            
+        }
+
+        .fc .fc-button:focus, 
+        .fc .fc-button:active {
+            outline: none;            
+            box-shadow: none;  
+             
+        }
+
+        .fc .fc-view {
+            border: 2px solid #111; 
+            padding: 10px;  
+            border-radius: 8px; 
+            background-color: #fee6e3;      
+        }
+
+        .fc .fc-scrollgrid-sync-inner {
+            border: 2px solid #111; 
+            padding: 10px;  
+            border-radius: 8px; 
+            background-color: white; 
+        }
+
+        .fc .fc-daygrid-day.fc-day-today .fc-daygrid-day-frame {
+            background-color: #e1def9;
+            background-color: var(--fc-today-bg-color, #e1def9);
+        }
+
+        .fc .fc-daygrid-day-frame {
+            border: 2px solid #111; 
+            padding: 10px;  
+            border-radius: 8px; 
+        }
+        .fc table {
+            border-collapse: collapse;
+            border-spacing: 5;
+            font-size: 1em;
+            background-color: transparent;
+        }
+        .fc-h-event {
+            border: 2px;
+            border-radius: 8px;
+
+        }
+        .fc-event-title-container{
+            border: 2px solid #111; 
+            padding: 3px;  
+            border-radius: 8px; 
+            font-weight: bold;
+
+        }
+
+        
+        .fc-theme-standard td, .fc-theme-standard th {
+            border: 1px solid transparent; 
+            border: 1px solid var(--fc-border-color, transparent);
+        }
+        .fc-theme-standard .fc-scrollgrid {
+            border: 1px solid transparent;
+            border: 1px solid var(--fc-border-color, transparent);
+    
+        }
+        .fc .fc-button-primary:disabled {
+            color: #111;
+            color: var(--fc-button-text-color, #111);
+            background-color: #c5b9f2;
+            background-color: var(--fc-button-bg-color,#c5b9f2);
+            border-color: #111;
+            font-weight: bold;
+
+        }
+
+        .fc .fc-button-primary:not(:disabled).fc-button-active,.fc .fc-button-primary:not(:disabled):active {
+            color: #111;
+            color: var(--fc-button-text-color,#111);
+            background-color: #c5b9f2;
+            background-color: var(--fc-button-active-bg-color,#c5b9f2);
+            border-color: #c5b9f2;
+            border-color: var(--fc-button-active-border-color,#c5b9f2);
+        }
+
+        body{
+            font-family: sans-serif;
+            font-size: 18px;
+            display: block;
+            margin: 8px;
+            margin-top: 18px;    
+            margin-bottom: 20px; 
+            
+
+        }
+        img{
+            align-items: center;
+            background-color: #EECAD5;
+            border: 2px solid #111;
+            border-radius: 8px;
+            margin: 0px 462px;
+            display: block;
+        }
+
+
+
+    </style>
+    <div class="calendario" id='calendario'></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendario');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: {{ events|safe }},
+                locale: 'pt-br',
+                eventClick: function(info) {
+                    if (info.event.url) {
+                        window.location.href = info.event.url;
+                    }
+                }
+            });
+
+            calendar.render();
+        });
+    </script>
+{% endblock %}

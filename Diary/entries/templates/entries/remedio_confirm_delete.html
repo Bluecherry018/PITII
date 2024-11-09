@@ -1,0 +1,24 @@
+<!-- templates/remedios/remedio_confirm_delete.html -->
+{% extends "entries/base.html" %}
+
+{% block content %}
+<style>
+    .excluir-remedio{
+        align-items: center;
+            background-color:  #e1def9;
+            border: 2px solid #111;
+            border-radius: 8px;
+            max-width: fit-content;
+            padding: 0 25px;
+    }
+</style>
+
+    <p class="excluir-remedio">Deseja excluir o remédio "{{ object.nome }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button class="button-56-editar" type="submit">Excluir</button>
+    </form>
+    <a href="{% url 'remedio-detail' object.id %}">
+        <button class="button-56-editar">Cancel</button>
+    </a>
+{% endblock %}

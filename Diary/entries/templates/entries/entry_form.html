@@ -1,0 +1,146 @@
+<!-- entries/templates/entries/entry_form.html -->
+
+{% extends "entries/base.html" %}
+{% block content %}
+
+<style>
+    input {
+            align-items: center;
+            background-color: #fee6e3;
+            border: 2px solid #111;
+            border-radius: 8px;
+            color: #111;
+            font-family: Inter,sans-serif;
+            font-size: 16px;
+            line-height: 24px;
+            max-width: 80%;
+            text-align: left;
+            float: center;
+        }
+
+    textarea{
+    
+            align-items: center;
+            background-color: #fee6e3;
+            border: 2px solid #111;
+            border-radius: 8px;
+            color: #111;
+            font-family: Inter,sans-serif;
+            font-size: 16px;
+            line-height: 24px;
+            max-width: 80%;
+            text-align: left;
+        }
+
+    select{
+    
+    align-items: center;
+    background-color: #fee6e3;
+    border: 2px solid #111;
+    border-radius: 8px;
+    color: #111;
+    font-family: Inter,sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    max-width: 80%;
+}
+
+    .remedio-lista{
+        background-color: #fee6e3;
+        border: 2px solid #111;
+        border-radius: 8px;
+        box-sizing: border-box;
+        color: #111;
+        font-family: Inter, sans-serif;
+        font-size: 21.6px;
+        line-height: 24px;
+        padding: 10px; 
+        max-width: 31.5%;
+        margin-top: 20px;    
+        margin-right: 15px;  
+        margin-bottom: 20px; 
+        margin-left: 15px;
+        
+    }
+
+    .remedio-lista input[type="checkbox"] {
+        margin-bottom: 20px;  
+        
+    }
+
+    .remedios{
+        background-color: #e1def9;
+        border: 2px solid #111;
+        border-radius: 8px;
+        margin-top: 20px;    
+        margin-right: 15px;  
+        margin-bottom: 20px; 
+        margin-left: 15px;
+        max-width: 100%;
+        
+    }
+
+</style>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+            <div class="remedio-lista">
+                {% for remedio in remedios %}
+                <div class="remedios">
+                    <input type="checkbox" name="remedios" value="{{ remedio.id }}" {% if remedio in form.instance.remedios.all %}checked{% endif %} onclick="updateSelectedRemedios(this)">
+                    {{ remedio.nome }}
+                    </div>
+                
+                {% endfor %}
+           
+                
+            
+               
+            
+            
+        </div>
+            <script>
+               
+                function updateSelectedRemedios(checkbox) {
+                    var selectedRemedios = document.getElementById("selected-remedios");
+
+                    // Se o checkbox foi marcado, adiciona o remédio
+                    if (checkbox.checked) {
+                        var label = document.createElement("span");
+                        label.className = "remedio-label";
+                        label.textContent = checkbox.nextSibling.textContent;
+                        label.setAttribute("data-remedio-id", checkbox.value);
+
+                    } else {
+                        // Se o checkbox foi desmarcado, remove o remédio
+                        removeRemedio(checkbox.value);
+                    }
+                }
+
+                function removeRemedio(remedioId) {
+                    var checkbox = document.querySelector("input[value='" + remedioId + "']");
+                    checkbox.checked = false;
+
+                    var labelToRemove = document.querySelector("span[data-remedio-id='" + remedioId + "']");
+                    if (labelToRemove) {
+                        labelToRemove.remove();
+                    }
+                }
+
+
+            </script>
+            
+        <div id="selected-remedios"></div>
+        <button class="button-56-editar" type="submit">Salvar</button>
+    </form>
+    {% if entry %}
+        <a href="{% url 'entry-detail' entry.id %}">
+            <button class="button-56-editar">Cancel</button>
+        </a>
+    {% else %}
+        <a href="{% url 'entry-list' %}">
+            <button class="button-56-editar">Cancel</button>
+        </a>
+    {% endif %}
+{% endblock %}

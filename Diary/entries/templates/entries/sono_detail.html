@@ -1,0 +1,18 @@
+<!-- entries/templates/entries/entries_detail.html -->
+
+{% extends "entries/base.html" %}
+
+{% block content %}
+    <article>
+        <h2>{{ entry.date_created|date:'Y-m-d H:i' }}</h2>
+        <h3>{{ entry.sono }}</h3>
+        <br><br>
+        <div class="resultado">
+            <p><strong>Horas dormidas:</strong> {{ entry.horas }}</p>
+            <p><strong>Informações sobre o sono:</strong> {{ entry.informe }}</p>
+        </div>
+    </article>
+    <p>
+        <a href="{% url 'sono-registro-list'%}"><button class="button-56-editar" type="submit">Voltar</button></a>
+    </p>
+{% endblock %}

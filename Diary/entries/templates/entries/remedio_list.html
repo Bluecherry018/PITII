@@ -1,0 +1,35 @@
+<!-- templates/remedios/remedio_list.html -->
+{% extends "entries/base.html" %}
+
+
+
+{% block content %}
+
+    <style>
+        .remedios_lista {
+            align-items: center;
+            background-color: #fee6e3;
+            border: 2px solid #111;
+            border-radius: 8px;
+            color: #111;
+            max-width: 40%;
+            padding: 0 25px;
+        }
+
+    </style>
+
+    <h2>Lista de Remédios</h2>
+    <br><br>
+    
+        <a href="{% url 'remedio-create' %}"><button class="button-56">Novo Remédio</button></a>
+    
+
+        <div >
+            {% for remedio in object_list %}
+            <p>
+                <a class="remedios_lista" href="{% url 'remedio-detail' remedio.id %}">{{ remedio.nome }}</a>
+                
+            </p>
+        {% endfor %}
+        </div>
+{% endblock %}
