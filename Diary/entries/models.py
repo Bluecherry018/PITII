@@ -8,28 +8,26 @@ from django.urls import reverse
 
 
 class Entry(models.Model):
-    Mood = {
-        "\U0001F600": "\U0001F600 Feliz",
-        "\U0001F610": "\U0001F610 Indiferente",
-        "\U0001F61E": "\U0001F61E Triste",
-        "\U0001F621": "\U0001F621 Bravo",
-        "\U0001F62B": "\U0001F62B Cansado",
-        "\U0001F624": "\U0001F624 Estressado", 
-
-    }
-
-    Qualidade = {
-        "\U0001F634 Bom": "\U0001F634 Bom",
-        "\U0001F971	Insônia": "\U0001F971 Insônia",
-        "\U0001F62B Ruim": "\U0001F62B Ruim",
-    }
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    Mood = [
+        ('\U0001F600', '\U0001F600 Feliz'),
+        ('\U0001F610', '\U0001F610 Indiferente'),
+        ('\U0001F61E', '\U0001F61E Triste'),
+        ('\U0001F621', '\U0001F621 Bravo'),
+        ('\U0001F62B', '\U0001F62B Cansado'),
+        ('\U0001F624','\U0001F624 Estressado'),
+    ]
+  
+    Qualidade = [
+        ('\U0001F634', '\U0001F634 Bom'),
+        ('\U0001F971', '\U0001F971 Insônia'),
+        ('\U0001F62B', '\U0001F62B Ruim'),
+    ]
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='entries')
 
 
 
    
-    title = models.CharField(default='\U0001F634 Bom',max_length=1, choices=Mood, verbose_name='Humor')
+    title = models.CharField(default='\U0001F600 Bom',max_length=1, choices=Mood, verbose_name='Humor')
     content = models.TextField(verbose_name='Descreva o seu dia')
     date_created = models.DateTimeField(default=timezone.now)
 
