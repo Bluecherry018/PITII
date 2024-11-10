@@ -23,7 +23,7 @@ O projeto foi desenvolvido utilizando as seguintes tecnologias:
 ## Estrutura do Projeto
 Abaixo, uma visão geral da estrutura de pastas e arquivos:
 ```csharp
-PITII/
+Diary/
 │
 ├── Diary/
 │   │
