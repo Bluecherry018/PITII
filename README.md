@@ -1,24 +1,24 @@
 # PITII - Projeto Integrador Transdisciplinar em Ciência da Computação II
 
 ## Descrição do Projeto
-O PITII (Projeto Integrador Transdisciplinar em Ciência da Computação II) é um projeto desenvolvido para a disciplina de Projeto Integrador II do curso de Ciência da Computação.
+O **PITII** (Projeto Integrador Transdisciplinar em Ciência da Computação II) é um projeto desenvolvido para a disciplina de Projeto Integrador II do curso de Ciência da Computação.
 
 O objetivo deste projeto é criar uma aplicação de software ou dispositivo que integre conhecimentos multidisciplinares adquiridos ao longo do curso, aplicando-os para resolver um problema real.
 
 ## Funcionalidades
-* Home: Página inicial com um Planner integrado para ajudar na organização diária e no acompanhamento de tarefas e metas.
-* Diário: Espaço dedicado para registrar o humor, descrever o dia, acompanhar a qualidade do sono, registrar o total de horas dormidas, descrever a experiência do sono e anotar os remédios tomados.
-* Remédios: Módulo para adicionar, remover e atualizar informações sobre os remédios, incluindo horários e dosagens recomendadas.
-* Sono: Ferramenta de acompanhamento de sono que exibe a média semanal de horas dormidas, além de um gráfico que mostra a qualidade do sono ao longo do tempo.
-* Humor: Calendário interativo para monitorar e visualizar as variações de humor ao longo do mês, auxiliando na análise de padrões emocionais.
+* **Home**: Página inicial com um Planner integrado para ajudar na organização diária e no acompanhamento de tarefas e metas.
+* **Diário**: Espaço dedicado para registrar o humor, descrever o dia, acompanhar a qualidade do sono, registrar o total de horas dormidas, descrever a experiência do sono e anotar os remédios tomados.
+* **Remédios**: Módulo para adicionar, remover e atualizar informações sobre os remédios, incluindo horários e dosagens recomendadas.
+* **Sono**: Ferramenta de acompanhamento de sono que exibe a média semanal de horas dormidas, além de um gráfico que mostra a qualidade do sono ao longo do tempo.
+* **Humor**: Calendário interativo para monitorar e visualizar as variações de humor ao longo do mês, auxiliando na análise de padrões emocionais.
 
 ## Tecnologias Utilizadas
 O projeto foi desenvolvido utilizando as seguintes tecnologias:
 
-* Python - Linguagem utilizada para o desenvolvimento da lógica de backend do projeto.
-* HTML - Linguagem usada para estruturar o frontend do projeto, definindo a interface do usuário.
-* Django - Framework web em Python, utilizado para gerenciar o backend e facilitar o desenvolvimento de funcionalidades.
-* Banco de Dados - MySQL e sqlite3, utilizados para armazenamento e gerenciamento dos dados da aplicação.
+* **Python** - Linguagem utilizada para o desenvolvimento da lógica de backend do projeto.
+* **HTML** - Linguagem usada para estruturar o frontend do projeto, definindo a interface do usuário.
+* **Django** - Framework web em Python, utilizado para gerenciar o backend e facilitar o desenvolvimento de funcionalidades.
+* **Banco de Dados** - MySQL e sqlite3, utilizados para armazenamento e gerenciamento dos dados da aplicação.
 
 ## Estrutura do Projeto
 Abaixo, uma visão geral da estrutura de pastas e arquivos:
@@ -78,8 +78,8 @@ Para rodar o projeto localmente, siga os passos abaixo:
 
 ### Pré-requisitos
 
-* Python 3.x - Certifique-se de que o Python está instalado.
-* pip - Instalador de pacotes Python.
+* **Python 3.x** - Certifique-se de que o Python está instalado.
+* **pip** - Instalador de pacotes Python.
 
 1. Clone o repositório:
 ```bash
