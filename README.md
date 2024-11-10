@@ -64,7 +64,6 @@ Diary/
 │   ├── apps.py                  # Configurações da aplicação entries no Django
 │   ├── forms.py                 # Formulários do Django para entrada de dados no módulo entries
 │   ├── models.py                # Modelos de dados (tabelas) para o banco de dados do módulo entries
-│   ├── tests.py                 # Testes unitários e de integração para o módulo entries
 │   ├── urls.py                  # Configuração das rotas (URLs) para as views do módulo entries
 │   └── views.py                 # Lógica das views para processamento das requisições e respostas do módulo entries
 │
